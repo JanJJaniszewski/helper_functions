@@ -21,13 +21,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.dialects.oracle.base import VARCHAR2
 
 
-def my_create_alchemy_conn(user, pw, db='PXXDBM1'):
+def my_create_alchemy_conn(user, pw, db):
     eng = create_engine('oracle+cx_oracle://' + user + ':' + pw + '@' + db, label_length=29)
     connection = eng.connect()
     return eng, connection
 
 
-def my_write_sql(df, table_name, user, pw, db='PXXDBM1', replace_old = False, varchar_length = 200):
+def my_write_sql(df, table_name, user, pw, db, replace_old = False, varchar_length = 200):
     print 'Exporting to {0} ({1})'.format(table_name, datetime.now())
     eng, conn = my_create_alchemy_conn(user, pw)
 
@@ -50,7 +50,7 @@ def my_write_sql(df, table_name, user, pw, db='PXXDBM1', replace_old = False, va
     return df[0:3]
 
 
-def my_sql_request(q, user, pw, displayed=True, db='PXXDBM1'):
+def my_sql_request(q, user, pw, db, displayed=True):
     """Connects to SQL, executes query, and returns a dataframe representing SQL table gained from query, also prints
     it if you want
 
